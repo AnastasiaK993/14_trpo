@@ -1,0 +1,236 @@
+﻿<Page x:Class="_12prak.Pages.StudentFormPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:_12prak.Pages"
+       xmlns:validation="clr-namespace:_12prak.ValidationRules"
+     xmlns:services="clr-namespace:_12prak"
+      mc:Ignorable="d" 
+      DataContext="{Binding RelativeSource={RelativeSource Self}}"
+      d:DesignHeight="700" d:DesignWidth="800"
+    
+    Title="StudentFormPage">
+    <Page.Resources>
+        <validation:passwordValidationRule x:Key="passwordValidationRule"/>
+        <validation:loginValidationRule x:Key="loginValidationRule"/>
+        <validation:voidValidationRule x:Key="voidValidationRule"/> 
+        <validation:emailValidationRule x:Key="emailValidationRule"/>
+        <services:GroupsService x:Key="gService"/>
+        <services:RolesService x:Key="rService"/>
+    </Page.Resources>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid>
+            <StackPanel>
+                <StackPanel>
+                    <Label Padding="10" >Роль</Label>
+                    <ComboBox ItemsSource="{Binding Source={StaticResource rService}, Path=Roles}"
+              DisplayMemberPath="Title"
+              SelectedItem="{Binding Role}"/>
+                </StackPanel>
+                <StackPanel>
+
+                    <!--//Id - идентификатор, целочисленный тип данных
+                //Login - логин пользователя
+                //Name - имя пользователя
+                //Email - электронная почта
+                //Password - пароль пользователя
+                //CreatedAt - дата и время создания пользователя(поле CreatedAt добавить отдельной миграцией)-->
+                    <Label Content="Login" Padding="10" />
+                    <TextBox  x:Name="Login" >
+                        <TextBox.Text>
+                            <Binding Path="Login" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
+                                <Binding.ValidationRules>
+                                    <StaticResource ResourceKey="loginValidationRule"/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+
+                    <ItemsControl  ItemsSource="{Binding ElementName=Login12, Path=(Validation.Errors)}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding ErrorContent}" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+
+                    <!--<Label>логин</Label>
+                <TextBox Text="{Binding Login}"/>-->
+                </StackPanel>
+                <StackPanel>
+
+                    <Label Content="Name" Padding="0 15 0 0"/>
+                    <TextBox  x:Name="Name" >
+                        <TextBox.Text>
+                            <Binding Path="Name" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
+                                <Binding.ValidationRules>
+                                    <validation:voidValidationRule ValidatesOnTargetUpdated="True"/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+
+                    <ItemsControl  ItemsSource="{Binding ElementName=Name, Path=(Validation.Errors)}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding ErrorContent}" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+
+
+                    <!--<Label Content="name"/>
+                <TextBox Text="{Binding name}"/>-->
+                </StackPanel>
+                <StackPanel >
+
+                    <Label Content="Email" Padding="0 15 0 0"/>
+                    <TextBox x:Name="Email"  >
+                        <TextBox.Text>
+                            <Binding Path="Email" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
+                                <Binding.ValidationRules>
+                                    <StaticResource ResourceKey="emailValidationRule"/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+
+                    <ItemsControl  ItemsSource="{Binding ElementName=Email12, Path=(Validation.Errors)}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding ErrorContent}" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+
+
+                    <!--<Label>Email</Label>
+                <TextBox Text="{Binding Email}"/>-->
+                </StackPanel>
+                <StackPanel>
+                    <!--<Label>Password</Label>
+                <TextBox Text="{Binding Password}"/>-->
+
+
+
+                    <Label Content="Password" Padding="0 15 0 0"/>
+                    <TextBox  x:Name="Password" >
+                        <TextBox.Text>
+                            <Binding Path="Password" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
+                                <Binding.ValidationRules>
+                                    <validation:passwordValidationRule ValidatesOnTargetUpdated="True"/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+
+                    <ItemsControl  ItemsSource="{Binding ElementName=Password12, Path=(Validation.Errors)}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding ErrorContent}" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                </StackPanel>
+
+
+                <StackPanel>
+                    <Label Padding="0 15 0 0">Серия паспорта</Label >
+                    <!--<TextBox Text="{Binding Passport.Series}"/>-->
+
+
+                    <TextBox x:Name="PassportSeries"  >
+                        <TextBox.Text>
+                            <Binding Path="Passport.Series" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
+                                <Binding.ValidationRules>
+                                    <validation:voidValidationRule ValidatesOnTargetUpdated="True"/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+
+                    <ItemsControl  ItemsSource="{Binding ElementName=Email12, Path=(Validation.Errors)}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding ErrorContent}" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+
+
+
+
+                </StackPanel>
+                <StackPanel>
+                    <Label Padding="0 15 0 0">Номер паспорта</Label>
+                    <!--<TextBox Text="{Binding Passport.Number}"/>-->
+                    <TextBox x:Name="PassportNumber">
+                        <TextBox.Text>
+                            <Binding Path="Passport.Number" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
+                                <Binding.ValidationRules>
+                                    <validation:voidValidationRule ValidatesOnTargetUpdated="True"/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                    <ItemsControl  ItemsSource="{Binding ElementName=Email12, Path=(Validation.Errors)}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding ErrorContent}" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+
+
+
+
+                </StackPanel>
+                <StackPanel>
+                    <Label Padding="0 15 0 0" Content="Телефон"/>
+                    <TextBox Text="{Binding UserProfile.Phone}" TextChanged="TextBox_TextChanged"/>
+                </StackPanel>
+
+                <StackPanel>
+                    <Label>Группа</Label>
+                    <ComboBox ItemsSource="{Binding Source={StaticResource gService}, Path=Groups }" DisplayMemberPath="Title" SelectedItem="{Binding Group}"/>
+                </StackPanel>
+
+                <StackPanel Margin="10" >
+                    <Button Click="save" Content="Сохранить">
+                        <Button.Style>
+                            <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatButton}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName = Login, Path =(Validation.HasError)}" Value="true">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding ElementName = Name, Path =(Validation.HasError)}" Value="true">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding ElementName = Email, Path =(Validation.HasError)}" Value="true">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding ElementName = Password, Path =(Validation.HasError)}" Value="true">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <Button Click="back">Назад</Button>
+                </StackPanel>
+
+
+
+
+
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+</Page>
